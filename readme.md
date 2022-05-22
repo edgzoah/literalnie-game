@@ -1,2 +1,2 @@
-need to install nodemon to get this working\n
+need to install nodemon to get this working
 npm i nodemon
