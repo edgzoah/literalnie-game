@@ -32,7 +32,9 @@ $(document).ready(function() {
 
             $.post('/api/check', { word: submitedWord })
             .then((response) => {
-                console.log(response);
+                for (let i = 0; i < response.response.length; i++) {
+                    $(`#${nextLine-1+'-'+i}`).css('background', response.response[i]);
+                }
 
                 activeLine(nextLine);
                 $('#'+nextLine).find('input').first().focus();

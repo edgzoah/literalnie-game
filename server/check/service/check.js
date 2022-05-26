@@ -1,24 +1,29 @@
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+}
+
 const check = (req) => {
     const response = [];
-    const word = req.body.word;
-    let opassword = 'TEMAT'
-    let password = opassword;
+    let word = req.body.word;
+    let wordcp = word;
+    const password = 'TEMAT'
     
     for(let i = 0; i < word.length; i++) {
-        password = password.replace(word[i], '%');
-        console.log(password);
-    }
-    for(let i = 0; i < password.length; i++) {
-        if (password[i] !== '%') {
-            response.push({'grey': i});
-        } else if (word[i] == opassword[i]) {
-            response.push({'green': i});
+        if (word[i] == password[i]) {
+            word = word.replaceAt(i, '%');
         } else {
-            response.push({'yellow': i});
+            word = word.replace(password[i], '%');
         }
     }
-    console.log('----------');
-    const success = word === password ? true : false;
+    for(let i = 0; i < word.length; i++) {
+        if (word[i] !== '%') {
+            response.push('#3a3a3c');
+        } else if (wordcp[i] == password[i]) {
+            response.push('#538d4e');
+        } else {
+            response.push('#b59f3b');
+        }
+    }
     
     return { response };
 }
