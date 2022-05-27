@@ -22,8 +22,7 @@ function os_func() {
    }
 }
 
-const check = (req) => {
-    let password = 'TEMAT';
+const check = async (req) => {
     // exec("./a.out", (error, stdout, stderr) => {
     //     let number = Number(stdout);
     //     password = words[number].toUpperCase();
@@ -31,15 +30,13 @@ const check = (req) => {
     //     return;
     // });
     var os = new os_func();
-    let ok = os.execCommand('pwd').then(res=> {
-        console.log(res)
-        return res
-    })
-    console.log(ok + 'dds');
+    let ok = await os.execCommand('./a.out');
+
+    let password = words[ok].toUpperCase();
+
     const response = [];
     let word = req.body.word;
     let wordcp = word;
-    console.log(password + 'after');
 
     
     for(let i = 0; i < word.length; i++) {

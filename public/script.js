@@ -47,7 +47,6 @@ $(document).ready(function() {
                     activeLine(nextLine);
                     $(`#${nextLine}`).find('input').first().focus();
                 }
-
             });
         }
     };
