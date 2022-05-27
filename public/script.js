@@ -36,13 +36,13 @@ $(document).ready(function() {
 
             $.post('/api/check', { word: submitedWord })
             .then((response) => {
-                for (let i = 0; i < response.response.length; i++) {
-                    $(`#${nextLine-1+'-'+i}`).css('background', response.response[i]);
-                }
+                response.response.forEach((element, index) => {
+                    $(`#${nextLine-1+'-'+index}`).css('background', element);
+                });
                 if (response.response.every(isGreen)) {
-                    $('.modal-body').html(`Odgadnięte słowo: ${submitedWord}`)
-                   $('#myModal').modal();
-                   $(`#${lineId}`).find('input').prop('disabled', true);
+                    $('.modal-body').html(`Odgadnięte słowo: ${submitedWord}`);
+                    $('#myModal').modal();
+                    $(`#${lineId}`).find('input').prop('disabled', true);
                 } else {
                     activeLine(nextLine);
                     $(`#${nextLine}`).find('input').first().focus();
@@ -61,10 +61,10 @@ $(document).ready(function() {
         return false;
     })
 
-    $('html').keydown(function(e) {
+    $('html').keydown((e) => {
         if (e.keyCode == 8) {
             isDeleting = true;
-            $('input').each(function(index, el) {
+            $('input').each((index, el) => {
                 if ($('input').eq(index).val() == '') {
                     $('input').eq(index-1).focus();
                     if ($('input').eq(index-1).is(':focus')) {
@@ -101,7 +101,6 @@ $(document).ready(function() {
         if (pattern.includes(key)) {
             const nextInput = e.target.nextElementSibling;
             const id = e.target.id.split('-');
-            const line = id[0];
             const charIndex = id[1];
 
             e.target.value = key;

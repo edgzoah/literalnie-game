@@ -1,5 +1,4 @@
 const { exec } = require("child_process");
-const { stdout } = require("process");
 let word = require('./words');
 
 const words = word.words
@@ -8,9 +7,9 @@ String.prototype.replaceAt = function(index, replacement) {
     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
 }
 
-function os_func() {
-    this.execCommand = function (cmd) {
-        return new Promise((resolve, reject)=> {
+class os_func {
+    execCommand = (cmd) => {
+        return new Promise((resolve, reject) => {
            exec(cmd, (error, stdout, stderr) => {
              if (error) {
                 reject(error);
@@ -23,30 +22,25 @@ function os_func() {
 }
 
 const check = async (req) => {
-    // exec("./a.out", (error, stdout, stderr) => {
-    //     let number = Number(stdout);
-    //     password = words[number].toUpperCase();
-    //     console.log(password);
-    //     return;
-    // });
-    var os = new os_func();
+    let word = req.body.word;
+    let os = new os_func();
     let ok = await os.execCommand('./a.out');
 
     let password = words[ok].toUpperCase();
 
     const response = [];
-    let word = req.body.word;
-    let wordcp = word;
+    const wordcp = word;
 
     
-    for(let i = 0; i < word.length; i++) {
+    for (let i = 0; i < word.length; i++) {
         if (word[i] == password[i]) {
             word = word.replaceAt(i, '%');
         } else {
             word = word.replace(password[i], '%');
         }
     }
-    for(let i = 0; i < word.length; i++) {
+
+    for (let i = 0; i < word.length; i++) {
         if (word[i] !== '%') {
             response.push('#3a3a3c');
         } else if (wordcp[i] == password[i]) {
