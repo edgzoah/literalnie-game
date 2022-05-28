@@ -1,8 +1,8 @@
-$(document).ready(function() {
+$(document).ready(() => {
     const inputs = document.getElementsByTagName('input');
     const inputsLength = inputs.length;
     const pattern =  ['A','a','Ą','ą','B','b','C','c','Ć','ć','D','d','E','e','Ę','ę','F','f','G','g','H','h','I','i','J','j','K','k','L','l','Ł','ł','M','m','N','n','Ń','ń','O','o','Ó','ó','P','p','R','r','S','s','Ś','ś','T','t','U','u','W','w','Y','y','Z','z','Ź','ź','Ż','ż'];
-    
+    let previousKey;
     const chances = [null, null, null, null, null, null];
     let word = ['', '', '', '', ''];
     let isDeleting = false;
@@ -21,7 +21,7 @@ $(document).ready(function() {
     activeLine('0');
     $('#0-0').focus();
     
-    function isGreen(item) {
+    const isGreen = (item) => {
         return item == '#538d4e';
     }
    
@@ -46,8 +46,12 @@ $(document).ready(function() {
                 } else {
                     activeLine(nextLine);
                     $(`#${nextLine}`).find('input').first().focus();
+                    if (nextLine == 6) {
+                        $('#myModal1').modal();
+                    }
                 }
             });
+
         }
     };
 
@@ -59,36 +63,8 @@ $(document).ready(function() {
             $(`#${previous}`).focus();
         }
         return false;
-    })
-
-    $('html').keydown((e) => {
-        if (e.keyCode == 8) {
-            isDeleting = true;
-            $('input').each((index, el) => {
-                if ($('input').eq(index).val() == '') {
-                    $('input').eq(index-1).focus();
-                    if ($('input').eq(index-1).is(':focus')) {
-                        $('input').eq(index-1).val('');
-                        word[$('input').eq(index-1).attr('id')[2]] = '';
-                        return false;
-                    }
-                    isDeleting = false;
-                    return false;
-                }
-            });
-        }
     });
-    $('input').blur(function(e) {
-        if ($(this).attr('id')[2] == 4 && pattern.includes($(this).val())) {
-            $(this).focus();
-        }
-        if ($(this).val() == '' && !isDeleting) {
-            $(this).focus();
-        }
-        if (isDeleting) {
-            isDeleting = false;
-        }
-    })
+    
     $('input').keypress(function(e) {
         const key = e.key.toUpperCase();
         if (key === 'ENTER') {
@@ -110,6 +86,39 @@ $(document).ready(function() {
             if (nextInput) {
                 nextInput.focus();
             }
+        }
+    });
+
+    $('html').keydown((e) => {
+        if (e.keyCode == 8) {
+            if (previousKey == 13) {
+                return false;
+            }
+            isDeleting = true;
+            $('input').each((index, el) => {
+                if ($('input').eq(index).val() == '') {
+                    $('input').eq(index-1).focus();
+                    if ($('input').eq(index-1).is(':focus')) {
+                        word[$('input').eq(index-1).attr('id')[2]] = '';
+                        $('input').eq(index-1).val('');
+                        return false;
+                    }
+                    isDeleting = false;
+                    return false;
+                }
+            });
+        }
+        previousKey = e.keyCode;
+    });
+    $('input').blur(function(e) {
+        if ($(this).attr('id')[2] == 4 && pattern.includes($(this).val())) {
+            $(this).focus();
+        }
+        if ($(this).val() == '' && !isDeleting) {
+            $(this).focus();
+        }
+        if (isDeleting) {
+            isDeleting = false;
         }
     })
 });

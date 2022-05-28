@@ -18,12 +18,13 @@ html, body {
 }
 #game .row {
     display: flex;
+    font-size: 200%;
 }
 #game .row input {
     display: block;
     border: 2px solid #d3d6da;
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     margin: 2px;
     text-transform: uppercase;
     font-weight: bold;
@@ -42,4 +43,34 @@ html, body {
 }
 #game .row input:disabled {
     background: #e0e0e0;
+}
+
+@media only screen and (max-width: 451px) {
+    #game .row input {
+        width: 60px;
+        height: 60px;
+    }
+    #game .row {
+        font-size: 150%;
+    }
+}
+
+@media only screen and (max-width: 331px) {
+    #game .row input {
+        width: 40px;
+        height: 40px;
+    }
+    #game .row {
+        font-size: 100%;
+    }
+}
+
+@media only screen and (max-width: 231px) {
+    #game .row input {
+        width: 30px;
+        height: 30px;
+    }
+    #game .row {
+        font-size: 75%;
+    }
 }

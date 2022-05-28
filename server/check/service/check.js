@@ -24,7 +24,7 @@ class os_func {
 const check = async (req) => {
     let word = req.body.word;
     let os = new os_func();
-    let ok = await os.execCommand('./a.out');
+    let ok = await os.execCommand('.\\a.exe');
 
     let password = words[ok].toUpperCase();
 

@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
 #include <iostream>
+#include <time.h>
 using namespace std;
 int main(void) {
 	time_t s, val = 1;
