@@ -20,7 +20,27 @@ $(document).ready(() => {
     
     activeLine('0');
     $('#0-0').focus();
-    
+
+    let nextWord = new Date();
+    let year = nextWord.getFullYear();
+    let month = nextWord.getMonth();
+    let day = nextWord.getDate()+1;
+    let hour = 0;
+    let minute = 0;
+    let second = 0;
+    let ms = 0;
+    let nextDayWord = new Date(year, month, day, hour, minute, second, ms).getTime();
+
+    let timer = setInterval(() => {
+        let date = new Date().getTime();
+        let distance = nextDayWord - date;
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        $('.modal-body').html(`Do następnego słowa: ${days}d ${hours}h ${minutes}m ${seconds}s`);
+    }, 1000)
+
     const isGreen = (item) => {
         return item == '#538d4e';
     }
@@ -40,7 +60,6 @@ $(document).ready(() => {
                     $(`#${nextLine-1+'-'+index}`).css('background', element);
                 });
                 if (response.response.every(isGreen)) {
-                    $('.modal-body').html(`Odgadnięte słowo: ${submitedWord}`);
                     $('#myModal').modal();
                     $(`#${lineId}`).find('input').prop('disabled', true);
                 } else {
